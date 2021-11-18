@@ -1,7 +1,7 @@
 '''
 Date: 2021-10-31 16:49:59
 LastEditors         : 王少帅
-LastEditTime        : 2021-11-15 22:35:41
+LastEditTime        : 2021-11-17 16:47:15
 FilePath            : /my_blog/my_blog/urls.py
 '''
 
@@ -22,7 +22,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 from django.contrib import admin
 from django.urls import path,include
@@ -39,3 +40,5 @@ urlpatterns = [
     
     path('comment/', include('comment.urls', namespace='comment')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

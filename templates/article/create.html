@@ -1,3 +1,9 @@
+<!--
+ * @Date                : 2021-11-16 21:38:45
+ * @LastEditors         : 王少帅
+ * @LastEditTime        : 2021-11-17 18:00:11
+ * @FilePath            : /my_blog/templates/article/create.html
+-->
 {% extends "base.html" %}
 {% load static%}
 
@@ -11,13 +17,31 @@
         <div class="col-12">
             <br>
             <!--提交文章的表单-->
-            <form action="." method="post">
+            <form action="." method="post" enctype="multipart/form-data">
                 <!-- Django中需要POST数据的地方都必须有csrf_token -->
                 {% csrf_token %}
                 <!-- 文章标题 -->
                 <div class="form-group">
                     <label for="title">文章标题</label>
                     <input type="text" class="form-control" id="title" name ="title">
+                </div>
+                <!-- 文章标题图 -->
+                <div class="form-group">
+                    <label for="avatar">标题图</label>
+                    <input type="file" class="form-control-file" name="avatar" id="avatar">
+                </div>
+                <!-- 文章栏目 -->
+                <div class="form-group">
+                    <label for="column">栏目</label>
+                    <select class="form-control" 
+                            id="column" 
+                            name="column"
+                    >
+                            <option value="none">请选择栏目..</option>
+                        {% for column in columns %}
+                            <option value="{{ column.id }}">{{ column }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <!--文章正文部分-->
                 <div class="form-group">

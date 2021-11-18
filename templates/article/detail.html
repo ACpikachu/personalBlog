@@ -1,7 +1,7 @@
 <!--
  * @Date                : 2021-11-15 22:16:36
  * @LastEditors         : 王少帅
- * @LastEditTime        : 2021-11-15 22:40:18
+ * @LastEditTime        : 2021-11-17 21:45:21
  * @FilePath            : /my_blog/templates/article/detail.html
 -->
 <!--
@@ -19,11 +19,21 @@
 文章详情
 {% endblock title %}
 
+
+
 <!-- 写入 base.html 中定义的 content -->
 {% block content %}
 
+{% block script %}
+<script>
+    $(".django-ckeditor-widget").removeAttr('style');
+</script>
+{% endblock script %}
+
 <!-- 文章详情 -->
 <div class="container">
+    <script src="{% static 'ckeditor/ckeditor/plugins/prism/lib/prism/prism_patched.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'prism/prism.css' %}">
     <div class="row">
         <!-- 标题及作者 -->
         <div class="col-9">
@@ -62,12 +72,17 @@
                             我也要发言：
                         </strong>
                     </label>
-                    <textarea 
+                    <!-- <textarea 
                         type="text" 
                         class="form-control" 
                         id="body" 
                         name="body" 
-                        rows="2"></textarea>
+                        rows="2"></textarea> -->
+                        <!-- 更改为富文本了 -->
+                        <div>
+                            {{ comment_form.media }}
+                            {{ comment_form.body }}
+                        </div>
                 </div>
                 <!-- 提交按钮 -->
                 <button type="submit" class="btn btn-primary ">发送</button>                    
@@ -95,7 +110,8 @@
                         </span> 时说：
                     </p>
                     <pre style="font-family: inherit; font-size: 1em;">
-        {{ comment.body }}</pre>
+                        <!-- |safe防止转义 -->
+        {{ comment.body|safe }}</pre>
                 {% endfor %}
     </div>
 

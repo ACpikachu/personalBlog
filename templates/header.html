@@ -1,11 +1,10 @@
 <!--
- * @Author: your name
- * @Date: 2021-11-02 20:23:53
- * @LastEditTime: 2021-11-12 18:06:37
- * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /my_blog/templates/header.html
+ * @Date                : 2021-11-17 19:48:28
+ * @LastEditors         : 王少帅
+ * @LastEditTime        : 2021-11-17 19:48:28
+ * @FilePath            : /my_blog/templates/header.html
 -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
 
@@ -23,6 +22,12 @@
 
         <!-- Django的 if 模板语句 -->
         {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'article:article_create' %}">写文章</a>
+        </a>
+        </li>
+
+
         <!-- 如果用户已经登录，则显示用户名下拉框 -->
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
@@ -35,6 +40,12 @@
                 </li>
                 <li>
                   <a class="dropdown-item" href="#" onclick="user_delete()">删除用户</a>
+                </li>
+                <li><a class="dropdown-item" href='{% url "userprofile:edit" user.id %}'>个人信息</a>
+                </li>
+                <li>
+                  <a class="nav-link" href="{% url 'article:article_create' %}">写文章</a>
+                </a>
                 </li>
             </ul>
       </li>

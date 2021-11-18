@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-01 17:40:41
- * @LastEditTime: 2021-11-15 14:01:40
- * @LastEditors: Please set LastEditors
+ * @LastEditTime        : 2021-11-17 21:39:23
+ * @LastEditors         : 王少帅
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /my_blog/templates/article/list.html
+ * @FilePath            : /my_blog/templates/article/list.html
 -->
 {% extends "base.html" %}
 {% load static %}
@@ -63,31 +63,63 @@
     <div class="row mt-2">
 
         {% for article in articles %}
-        <!-- 文章内容 -->
-        <div class="col-4 mb-4">
-            <!-- 卡片容器 -->
-            <div class="card h-100">
-                <!-- 标题 -->
-                <h4 class="card-header">{{ article.title }}</h4>
-                <!-- 摘要 -->
-                <div class="card-body">
-                    <p class="card-text">{{ article.body|slice:'100' }}...</p>
-                </div>
-                <!-- 注脚 -->
-                <div class="card-footer">
-                    <a href="{% url 'article:article_detail' article.id %}" class="btn btn-primary">阅读本文</a>
-                </div>
-
-                <!-- 显示浏览量 -->
-                <span>
-                    <small class="col align-self-end" style="color: gray;">
-                        浏览: {{ article.total_views }}
-                    </small>
-                </span>
-            </div>
+        
+        {% if article.avatar %}
+        <div class="col-3">
+            <img src="{{ article.avatar.url }}" 
+                 alt="avatar" 
+                 style="max-width:100%; border-radius: 20px"
+            >
         </div>
-        {% endfor %}
+        {% endif %}
+        <!-- 文章内容 -->
+        <div class="col">
+            {% if article.column.title %}
+            <button type="button" 
+            class="btn btn-sm mb-2
+                {% if article.column.title == 'Django' %}
+                    btn-success
+                {% elif article.column.title == 'Java' %}
+                    btn-danger
+                {% elif article.column.title == 'HTML' %}
+                    btn-warning
+                {% endif %}
+            "
+        >
+            {{ article.column }}
+        </button>
+            {% endif %}
+            <!-- 标题 -->
+            <h4>
+                <b>
+                    <a href="{% url 'article:article_detail' article.id %}"style="color: black;">
+                        {{ article.title }}
+                    </a>
+                </b>
+            </h4>
 
+            <!-- 摘要 -->
+            <p style="color: gray;">{{ article.body|slice:'100' }}...</p>
+
+
+            <!-- 注脚 -->
+            <p class="card-footer">
+                <a href="{% url 'article:article_detail' article.id %}" class="btn btn-primary">阅读本文</a>
+                <!-- 显示浏览量 -->
+                <span style="color: green;">
+                        {{ article.total_views }}浏览 &nbsp;&nbsp;&nbsp;
+                </span>
+                <span style="color: blue;">
+                    {{ article.created|date:'Y-m-d' }} 发布&nbsp;&nbsp;&nbsp;
+                </span>
+                <span style="color: darkred;">
+                    {{ article.updated|date:'Y-m-d' }} 更新
+                </span>
+            </p>
+            <hr>
+        </div>
+        <hr style="width: 100%;"/>
+        {% endfor %}
     </div>
 
     <!-- 页码导航 -->
